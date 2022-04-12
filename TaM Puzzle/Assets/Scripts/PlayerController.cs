@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     public bool IsMoving;
     public Vector3 origPos, targetPos;
     private float timeToMove = 0.2f;
-    // Start is called before the first frame update
+  
+    // Sets starting values.
     void Start()
     {
        rb = this.GetComponent<Rigidbody2D>();
@@ -20,7 +21,7 @@ public class PlayerController : MonoBehaviour
         PlayerTurn = true;
     }
 
-    // Update is called once per frame
+    // Gets direction based on input.
     void Update()
     {
         if (PlayerTurn)
@@ -37,12 +38,8 @@ public class PlayerController : MonoBehaviour
 
 }
 
-    void FixedUpdate()
-    {
-
-        
-    }
-
+ 
+ 
   public  IEnumerator MovePlayer(Vector3 direction)
     {
         IsMoving = true;
@@ -63,9 +60,10 @@ public class PlayerController : MonoBehaviour
         PlayerTurn = false;
     }
 
+    // Behaviour of player on collisions
     public void OnCollisionEnter2D(Collision2D target)
     {
-
+    // Game over condition
         if (target.gameObject.CompareTag("Minotaur"))
         {
             Destroy(gameObject);
