@@ -4,62 +4,70 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 1f;
-    public Transform movePoint;
+
     public bool PlayerTurn;
+    public Vector3 origPos;
     public Rigidbody2D rb;
-    public bool IsMoving;
-    public Vector3 origPos, targetPos;
-    private float timeToMove = 0.2f;
-  
+    public int MoveCount;
+    public GameObject Minotaur;
+
     // Sets starting values.
     void Start()
     {
        rb = this.GetComponent<Rigidbody2D>();
-       movePoint.parent = null;
-        moveSpeed = 1f;
-        PlayerTurn = true;
+       PlayerTurn = true;
+       MoveCount = 0;
     }
 
-    // Gets direction based on input.
+    // Input based commands.
     void Update()
     {
+        // Gets direction based on input.
         if (PlayerTurn)
         {
-            if (Input.GetKey(KeyCode.UpArrow) && !IsMoving)
-                StartCoroutine(MovePlayer(Vector3.up));
-            if (Input.GetKey(KeyCode.DownArrow) && !IsMoving)
-                StartCoroutine(MovePlayer(Vector3.down));
-            if (Input.GetKey(KeyCode.LeftArrow) && !IsMoving)
-                StartCoroutine(MovePlayer(Vector3.left));
-            if (Input.GetKey(KeyCode.RightArrow) && !IsMoving)
-                StartCoroutine(MovePlayer(Vector3.right));
+            if (Input.GetKey(KeyCode.UpArrow) && MoveCount == 0)
+                MovePlayer("up");
+            if (Input.GetKey(KeyCode.DownArrow) && MoveCount == 0)
+             MovePlayer("down");
+            if (Input.GetKey(KeyCode.LeftArrow) && MoveCount == 0)
+                MovePlayer("left");
+            if (Input.GetKey(KeyCode.RightArrow) && MoveCount == 0)
+                MovePlayer("right");
         }
-
-}
-
- 
- 
-  public  IEnumerator MovePlayer(Vector3 direction)
-    {
-        IsMoving = true;
-
-        origPos = transform.position;
-        targetPos = origPos + direction;
-        float elapsedTime = 0;
-
-        while(elapsedTime < timeToMove)
+        // Pressing W the player skips a turn.
+        if (Input.GetKey(KeyCode.W))
         {
-            transform.position = Vector3.Lerp(origPos, targetPos, (elapsedTime / timeToMove));
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            MoveCount = 0;
+            PlayerTurn = false;
+            Minotaur.GetComponent<EnemyController>().MinotaurTurn = true;
         }
-        transform.position = targetPos;
 
-        IsMoving = false;
-        PlayerTurn = false;
     }
 
+ 
+ //Moves player one square
+  public  void MovePlayer(string direction)
+    {
+      
+        MoveCount++;
+        origPos = transform.position;
+
+  
+    if (direction == "up")
+            transform.position = new Vector3(origPos.x, origPos.y + 1f, 0f);
+    if (direction == "down") 
+            transform.position = new Vector3(origPos.x, origPos.y - 1f, 0f);
+    if (direction == "right")
+            transform.position = new Vector3(origPos.x + 1f, origPos.y, 0f);
+    if (direction == "left")
+            transform.position = new Vector3(origPos.x - 1f, origPos.y, 0f);
+     
+        Minotaur.GetComponent<EnemyController>().MinotaurTurn = true;
+        PlayerTurn = false;
+        MoveCount = 0;
+    }
+
+ 
     // Behaviour of player on collisions
     public void OnCollisionEnter2D(Collision2D target)
     {
