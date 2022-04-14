@@ -11,6 +11,9 @@ public class EnemyController : MonoBehaviour
     public bool MinotaurTurn;
     public GameObject Theseus;
     public int MoveCount;
+    public Vector3 targPos;
+    public Vector3 origPos;
+
 
     // Setting starting values.
     void Start()
@@ -37,15 +40,11 @@ public class EnemyController : MonoBehaviour
 
         if (pTurn == false)
         {
-            MinotaurTurn = true;
+          
+            origPos = rb.transform.position;
+            targPos = player.position;
             MoveMinotaur();
         }
-        else
-        {
-            MinotaurTurn = false;
-            Theseus.GetComponent<PlayerController>().PlayerTurn = true;
-        }
-
 
     }
 
@@ -53,24 +52,25 @@ public class EnemyController : MonoBehaviour
     //Moves the Minotaur in player's direction.
     public void MoveMinotaur()
     {
-       Vector3 targPos = player.position;
-       Vector3 origPos = rb.transform.position;
 
-
-        if (MinotaurTurn)
+        MoveCount = 0;
+        while (MinotaurTurn)
         {
-            MoveCount = 0;
             while (MoveCount < 2)
             {
-                if (targPos.x > origPos.x && (MoveCount < 2))
+                if (targPos.x != origPos.x)
                 {
-                    transform.position = new Vector3(origPos.x + 1f, origPos.y, 0f);
-                    MoveCount++;
-                }
-                else if (targPos.x < origPos.x && (MoveCount < 2))
-                {
-                    transform.position = new Vector3(origPos.x - 1f, origPos.y, 0f);
-                    MoveCount++;
+
+                    if ((targPos.x > origPos.x) && (MoveCount < 2))
+                    {
+                        transform.position = new Vector3(origPos.x + 1f, origPos.y, 0f);
+                        MoveCount++;
+                    }
+                    if ((targPos.x < origPos.x) && (MoveCount < 2))
+                    {
+                        transform.position = new Vector3(origPos.x - 1f, origPos.y, 0f);
+                        MoveCount++;
+                    }
                 }
                 if (targPos.x == origPos.x)
                 {
@@ -79,15 +79,22 @@ public class EnemyController : MonoBehaviour
                         transform.position = new Vector3(origPos.x, origPos.y + 1f, 0f);
                         MoveCount++;
                     }
-                    else if ((targPos.y < origPos.y + 1f) && (MoveCount < 2))
+                    if ((targPos.y < origPos.y) && (MoveCount < 2))
                     {
                         transform.position = new Vector3(origPos.x, origPos.y - 1f, 0f);
                         MoveCount++;
                     }
                 }
+                if (MoveCount == 2)
+                {
+                    MinotaurTurn = false;
+                    Theseus.GetComponent<PlayerController>().PlayerTurn = true;
+                }
             }
-            MoveCount = 0;
-            MinotaurTurn = false;
-        }
+        } 
+         
+        MoveCount = 0;
+
+      
     }
 }
