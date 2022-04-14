@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     // Input based commands.
     void Update()
     {
+        CheckTurn();
         // Gets direction based on input.
         if (PlayerTurn)
         {
@@ -39,7 +40,17 @@ public class PlayerController : MonoBehaviour
         {
             MoveCount = 0;
             PlayerTurn = false;
-            Minotaur.GetComponent<EnemyController>().MinotaurTurn = true;
+        }
+
+    }
+
+    public void CheckTurn()
+    {
+        bool pTurn = Minotaur.GetComponent<EnemyController>().DoneMoving;
+
+        if (pTurn)
+        {
+            PlayerTurn = true;
         }
 
     }
@@ -62,7 +73,6 @@ public class PlayerController : MonoBehaviour
     if (direction == "left")
             transform.position = new Vector3(origPos.x - 1f, origPos.y, 0f);
      
-        Minotaur.GetComponent<EnemyController>().MinotaurTurn = true;
         PlayerTurn = false;
         MoveCount = 0;
     }
@@ -74,7 +84,7 @@ public class PlayerController : MonoBehaviour
     // Game over condition
         if (target.gameObject.CompareTag("Minotaur"))
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 }
