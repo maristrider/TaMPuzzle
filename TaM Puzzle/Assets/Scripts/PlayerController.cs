@@ -8,73 +8,107 @@ public class PlayerController : MonoBehaviour
     public bool PlayerTurn;
     public Vector3 origPos;
     public Rigidbody2D rb;
-    public int MoveCount;
+    public int MC;
     public GameObject Minotaur;
+    public bool mOver;
 
     // Sets starting values.
     void Start()
     {
        rb = this.GetComponent<Rigidbody2D>();
        PlayerTurn = true;
-       MoveCount = 0;
+       MC = 0;
     }
 
     // Input based commands.
     void Update()
     {
-        CheckTurn();
+        CheckMoveCount();
         // Gets direction based on input.
-        if (PlayerTurn)
+        if (PlayerTurn == true)
         {
-            if (Input.GetKey(KeyCode.UpArrow) && MoveCount == 0)
+            origPos = transform.position;
+            if ((Input.GetKey(KeyCode.UpArrow) == true) && (MC == 0))
+            {
+                MC = 1;
                 MovePlayer("up");
-            if (Input.GetKey(KeyCode.DownArrow) && MoveCount == 0)
-             MovePlayer("down");
-            if (Input.GetKey(KeyCode.LeftArrow) && MoveCount == 0)
+
+            }
+            if ((Input.GetKey(KeyCode.DownArrow) == true) && (MC == 0))
+            {
+                MC = 1;
+                MovePlayer("down");
+
+            }
+            if ((Input.GetKey(KeyCode.LeftArrow) == true) && (MC == 0))
+            {
+                MC = 1;
                 MovePlayer("left");
-            if (Input.GetKey(KeyCode.RightArrow) && MoveCount == 0)
+            }
+            if ((Input.GetKey(KeyCode.RightArrow) == true) && (MC == 0))
+            {
+                MC = 1;
                 MovePlayer("right");
+            }
         }
         // Pressing W the player skips a turn.
         if (Input.GetKey(KeyCode.W))
         {
-            MoveCount = 0;
+            MC = 1;
             PlayerTurn = false;
         }
 
     }
 
-    public void CheckTurn()
+
+    public void CheckMoveCount()
     {
-        bool pTurn = Minotaur.GetComponent<EnemyController>().DoneMoving;
-
-        if (pTurn)
+        mOver = Minotaur.GetComponent<EnemyController>().MinotaurTurn;
+        if (MC == 1)
         {
-            PlayerTurn = true;
+            if (mOver == true)
+            {
+                MC = 0;
+            }
         }
-
     }
+
+
 
  
  //Moves player one square
   public  void MovePlayer(string direction)
     {
-      
-        MoveCount++;
-        origPos = transform.position;
 
-  
-    if (direction == "up")
-            transform.position = new Vector3(origPos.x, origPos.y + 1f, 0f);
-    if (direction == "down") 
-            transform.position = new Vector3(origPos.x, origPos.y - 1f, 0f);
-    if (direction == "right")
-            transform.position = new Vector3(origPos.x + 1f, origPos.y, 0f);
-    if (direction == "left")
-            transform.position = new Vector3(origPos.x - 1f, origPos.y, 0f);
-     
+
+      
+
+            if (direction == "up")
+            {
+                rb.transform.Translate(0, 1, 0);
+                // transform.position = new Vector3(origPos.x, origPos.y + 1, 0);
+            }
+            if (direction == "down")
+            {
+                rb.transform.Translate(0, - 1, 0);
+                //  transform.position = new Vector3(origPos.x, origPos.y - 1, 0);
+            }
+            if (direction == "right")
+            {
+                rb.transform.Translate(1, 0, 0);
+                //  transform.position = new Vector3(origPos.x + 1, origPos.y, 0);
+            }
+            if (direction == "left")
+            {
+                rb.transform.Translate(- 1, 0, 0);
+                //  transform.position = new Vector3(origPos.x - 1, origPos.y, 0);
+            }
+
+
         PlayerTurn = false;
-        MoveCount = 0;
+       
+      
+     
     }
 
  

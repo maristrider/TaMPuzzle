@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7604112868924317415}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.56735456, y: 1.0908918, z: 0}
+  m_LocalPosition: {x: -1, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -138,5 +138,9 @@ MonoBehaviour:
   rb: {fileID: 2272751181279624434}
   MinotaurTurn: 0
   Theseus: {fileID: 6839440854053095793, guid: f5747a610dce9ba46a1b169a61ac0bae, type: 3}
-  movement: {x: 0, y: 0}
-  speed: 1
+  MoveCount: 0
+  targPos: {x: 0, y: 0, z: 0}
+  originalPos: {x: 0, y: 0, z: 0}
+  finalPos: {x: 0, y: 0, z: 0}
+  DoneMoving: 0
+  pTurn: 0

@@ -340,6 +340,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7960700040103847316, guid: 4e94ecd0026a08d4cbe55671f86c01fd, type: 3}
   m_PrefabInstance: {fileID: 1467921301}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &883016360 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7604112868924317415, guid: 61f75ef1b6e35434994bb27f25a905f6, type: 3}
+  m_PrefabInstance: {fileID: 1489555212}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &903134183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -358,7 +363,7 @@ PrefabInstance:
     - target: {fileID: 419049417228907710, guid: f5747a610dce9ba46a1b169a61ac0bae, type: 3}
       propertyPath: Minotaur
       value: 
-      objectReference: {fileID: 7604112868924317415, guid: 61f75ef1b6e35434994bb27f25a905f6, type: 3}
+      objectReference: {fileID: 883016360}
     - target: {fileID: 419049417228907710, guid: f5747a610dce9ba46a1b169a61ac0bae, type: 3}
       propertyPath: movePoint
       value: 
